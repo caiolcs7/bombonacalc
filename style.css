@@ -1,0 +1,601 @@
+/* ==========================================================================
+   DESIGN TOKENS & SYSTEM CONFIGURATIONS (Apple Human Interface Guidelines)
+   ========================================================================== */
+:root {
+    /* Cores do Sistema - Dark Mode (Padrão) */
+    --bg-pure: #000000;
+    --bg-elevated: rgba(28, 28, 30, 0.75);
+    --bg-card-selected: rgba(255, 159, 10, 0.15);
+    --bg-input: #1C1C1E;
+    
+    --color-primary: #FF9F0A; /* Laranja Apple */
+    --color-primary-active: #FFB340;
+    --color-success: #30D158;
+    --color-danger: #FF453A;
+    --color-danger-active: #FF6961;
+    
+    --text-main: #FFFFFF;
+    --text-secondary: #8E8E93;
+    --text-muted: #48484A;
+    
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-input: #2C2C2E;
+    
+    /* Efeitos */
+    --blur-radius: 20px;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Tokens Alternativos para Light Mode */
+[data-theme="light"] {
+    --bg-pure: #F2F2F7;
+    --bg-elevated: rgba(255, 255, 255, 0.8);
+    --bg-card-selected: rgba(255, 149, 0, 0.12);
+    --bg-input: #FFFFFF;
+    
+    --color-primary: #FF9500;
+    --color-primary-active: #E68500;
+    --color-success: #34C759;
+    --color-danger: #FF3B30;
+    --color-danger-active: #D7261E;
+    
+    --text-main: #000000;
+    --text-secondary: #636366;
+    --text-muted: #C7C7CC;
+    
+    --border-glass: rgba(0, 0, 0, 0.06);
+    --border-input: #E5E5EA;
+}
+
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent; /* Remove outline azul no mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: var(--bg-pure);
+    color: var(--text-main);
+    font-family: -apple-system, SF Pro Display, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+    height: 100vh;
+    height: -webkit-fill-available; /* Correção para a barra de navegação do Safari */
+}
+
+/* Utilitário de Acessibilidade */
+.visual-hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+/* ==========================================================================
+   APP SHELL LAYOUT
+   ========================================================================== */
+.app-container {
+    max-width: 500px;
+    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 16px 10px 16px;
+}
+
+.app-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Views de SPA */
+.app-view {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 16px 24px 16px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.app-view.active {
+    display: flex;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ==========================================================================
+   DISPLAY DE RESULTADO (Estilo iPhone Calc)
+   ========================================================================== */
+.display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 30px 8px;
+    min-height: 140px;
+    word-break: break-all;
+}
+
+.display-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.display-value {
+    font-size: 64px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -2px;
+    transition: var(--transition-smooth);
+}
+
+/* ==========================================================================
+   SEÇÕES, CARDS E INPUTS
+   ========================================================================== */
+.section-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+
+.section-bombonas, .section-inputs, .section-summary, .section-actions, .section-history {
+    margin-bottom: 24px;
+}
+
+/* Cards Customizados de Bombona */
+.bombona-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.bombona-card {
+    background: var(--bg-input);
+    border: 2px solid transparent;
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-main);
+    transition: var(--transition-bounce);
+}
+
+.bombona-card:active {
+    transform: scale(0.96);
+}
+
+.bombona-card.active {
+    background: var(--bg-card-selected);
+    border-color: var(--color-primary);
+}
+
+.card-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+}
+
+.icon-branca { background-color: #FFFFFF; }
+.icon-marrom { background-color: #8B4513; }
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-name {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.card-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Estilização dos Inputs Grupos */
+.section-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding-left: 4px;
+}
+
+.input-group input {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-input);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    font-size: 18px;
+    color: var(--text-main);
+    font-weight: 600;
+    width: 100%;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.input-group input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(255, 159, 10, 0.15);
+}
+
+/* ==========================================================================
+   PAINEL RESUMO (Glassmorphic Container)
+   ========================================================================== */
+.section-summary {
+    background: var(--bg-elevated);
+    backdrop-filter: blur(var(--blur-radius));
+    -webkit-backdrop-filter: blur(var(--blur-radius));
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: var(--transition-smooth);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.summary-row span:last-child {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.summary-row.divider {
+    border-top: 1px solid var(--border-glass);
+    padding-top: 10px;
+}
+
+.summary-row.highlight {
+    font-size: 16px;
+    color: var(--text-main);
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.summary-row.highlight span:last-child {
+    color: var(--color-primary);
+    font-size: 18px;
+}
+
+/* ==========================================================================
+   BOTÕES E COMPONENTES DE INTERAÇÃO
+   ========================================================================== */
+.btn-icon {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+}
+
+.btn-icon:active {
+    background: rgba(255, 159, 10, 0.1);
+    transform: scale(0.92);
+}
+
+.section-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 14px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: var(--transition-smooth);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.95);
+    opacity: 0.85;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    border: 1px solid var(--border-input);
+}
+
+.btn-danger {
+    background-color: rgba(255, 69, 58, 0.15);
+    color: var(--color-danger);
+}
+
+.btn-danger:active:not(:disabled) {
+    background-color: rgba(255, 69, 58, 0.25);
+}
+
+/* ==========================================================================
+   HISTÓRICO DE CÁLCULOS
+   ========================================================================== */
+.history-header {
+    margin-bottom: 10px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.history-item {
+    background: var(--bg-input);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.history-item:active {
+    background: var(--border-input);
+    transform: scale(0.98);
+}
+
+.history-item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.history-item-meta {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.history-item-details {
+    font-size: 13px;
+    color: var(--text-main);
+}
+
+.history-item-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.badge-branca { background: #FFFFFF; color: #000000; }
+.badge-marrom { background: #8B4513; color: #FFFFFF; }
+
+.history-item-right {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.history-empty {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 30px 0;
+}
+
+/* ==========================================================================
+   TELA DE CONFIGURAÇÕES (Estilo Configurações iOS)
+   ========================================================================== */
+.view-header {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 14px 0 24px 0;
+}
+
+.btn-back {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    left: -6px;
+}
+
+.view-header h2 {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.settings-group h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    padding-left: 12px;
+}
+
+.settings-row {
+    background: var(--bg-input);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+
+.ios-select {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    text-align-last: right;
+    padding-right: 8px;
+}
+
+.btn-row-danger {
+    background: var(--bg-input);
+    color: var(--color-danger);
+    width: 100%;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    padding: 14px;
+    font-size: 16px;
+}
+
+.info-group .info-row {
+    background: var(--bg-input);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.info-group .info-row:first-of-type {
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+}
+
+.info-group .info-row:last-of-type {
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    border-bottom: none;
+}
+
+.info-group .info-row span:last-child {
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATION (Microinteração Feedback)
+   ========================================================================== */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 40px);
+    background: rgba(48, 209, 88, 0.95);
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.toast.error {
+    background: rgba(255, 69, 58, 0.95);
+}
+
+/* Otimização de Scrollbars Modernas */
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 10px;
+}

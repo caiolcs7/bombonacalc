@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>BombonaCalc Pro</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BombonaCalc">
+    <meta name="theme-color" content="#000000">
+    <meta name="format-detection" content="telephone=no">
+    
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <div id="app" class="app-container">
+        
+        <header class="app-header">
+            <h1 class="app-title">BombonaCalc Pro</h1>
+            <button id="btn-nav-settings" class="btn-icon" aria-label="Configurações">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+        </header>
+
+        <main id="view-calculator" class="app-view active">
+            
+            <section class="display-container" aria-live="polite">
+                <div class="display-label">Quantidade Produzida</div>
+                <div id="display-result" class="display-value">0</div>
+            </section>
+
+            <section class="section-bombonas">
+                <label class="section-title">Tipo de Bombona</label>
+                <div class="bombona-cards-grid">
+                    <button type="button" class="bombona-card active" data-type="branca" id="card-bombona-branca">
+                        <div class="card-icon icon-branca"></div>
+                        <div class="card-info">
+                            <span class="card-name">Bombona Branca</span>
+                            <span class="card-meta">Tara: 6,400 kg</span>
+                        </div>
+                    </button>
+                    
+                    <button type="button" class="bombona-card" data-type="marrom" id="card-bombona-marrom">
+                        <div class="card-icon icon-marrom"></div>
+                        <div class="card-info">
+                            <span class="card-name">Bombona Marrom</span>
+                            <span class="card-meta">Tara: 9,200 kg</span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <section class="section-inputs">
+                <div class="input-group">
+                    <label for="input-peso-bruto">Peso Bruto (kg)</label>
+                    <input type="text" id="input-peso-bruto" inputmode="decimal" placeholder="0,000" autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label for="input-gramatura">Gramatura (g)</label>
+                    <input type="text" id="input-gramatura" inputmode="numeric" placeholder="0" autocomplete="off">
+                </div>
+            </section>
+
+            <section class="section-summary visual-hidden" id="calc-summary">
+                <div class="summary-row">
+                    <span>Peso Bruto:</span>
+                    <span id="sum-peso-bruto">-</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tara Utilizada:</span>
+                    <span id="sum-tara">-</span>
+                </div>
+                <div class="summary-row divider">
+                    <span>Peso Líquido:</span>
+                    <span id="sum-peso-liquido">-</span>
+                </div>
+                <div class="summary-row">
+                    <span>Gramatura:</span>
+                    <span id="sum-gramatura">-</span>
+                </div>
+                <div class="summary-row highlight">
+                    <span>Resultado Final:</span>
+                    <span id="sum-resultado">-</span>
+                </div>
+            </section>
+
+            <section class="section-actions">
+                <button id="btn-copy" class="btn btn-secondary" disabled>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copiar</span>
+                </button>
+                <button id="btn-share" class="btn btn-secondary" disabled>
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                    <span>Compartilhar</span>
+                </button>
+                <button id="btn-clear" class="btn btn-danger">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    <span>Limpar</span>
+                </button>
+            </section>
+
+            <section class="section-history">
+                <div class="history-header">
+                    <label class="section-title">Últimos Cálculos</label>
+                </div>
+                <div id="history-list" class="history-list">
+                    <div class="history-empty">Nenhum cálculo recente</div>
+                </div>
+            </section>
+        </main>
+
+        <main id="view-settings" class="app-view">
+            <header class="view-header">
+                <button id="btn-back-calc" class="btn-back">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span>Voltar</span>
+                </button>
+                <h2>Configurações</h2>
+            </header>
+
+            <div class="settings-content">
+                <div class="settings-group">
+                    <h3>Aparência</h3>
+                    <div class="settings-row">
+                        <label for="select-theme">Tema do Aplicativo</label>
+                        <select id="select-theme" class="ios-select">
+                            <option value="dark">Escuro (Premium)</option>
+                            <option value="light">Claro</option>
+                            <option value="system">Padrão do Sistema</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3>Preferências Industriais</h3>
+                    <div class="settings-row">
+                        <label for="select-default-bombona">Bombona Padrão</label>
+                        <select id="select-default-bombona" class="ios-select">
+                            <option value="branca">Bombona Branca (6,400 kg)</option>
+                            <option value="marrom">Bombona Marrom (9,200 kg)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3>Dados e Armazenamento</h3>
+                    <button id="btn-clear-history" class="btn btn-row-danger">
+                        <span>Limpar Histórico Local</span>
+                    </button>
+                </div>
+
+                <div class="settings-group info-group">
+                    <h3>Sobre o Aplicativo</h3>
+                    <div class="info-row">
+                        <span>Nome</span>
+                        <span>BombonaCalc Pro</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Versão</span>
+                        <span>1.0.0 (PWA)</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Ambiente</span>
+                        <span>Industrial / Produção</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
