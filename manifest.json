@@ -1,40 +1,29 @@
 {
   "name": "BombonaCalc Pro",
   "short_name": "BombonaCalc",
-  "description": "Calculadora industrial de alta precisão para medição de produção por peso de bombonas.",
+  "description": "Calculadora industrial de produção com taras configuradas e histórico manual.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
-  "orientation": "portrait",
+  "background_color": "#080a0f",
+  "theme_color": "#080a0f",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
   "categories": ["productivity", "utilities"],
   "icons": [
     {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-192-maskable.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
   "shortcuts": [
     {
-      "name": "Novo Cálculo",
+      "name": "Novo cálculo",
       "short_name": "Calcular",
-      "description": "Abre direto na tela de cálculo",
-      "url": "./index.html",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "description": "Abre a tela principal de cálculo",
+      "url": "./index.html"
     }
   ]
 }
